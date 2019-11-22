@@ -9,6 +9,7 @@ class Journey
   def initialize(entry_station = nil, exit_station = nil)
     @entry_station = entry_station
     @exit_station = exit_station
+    @journey = []
   end
 
   def start(station)
@@ -17,11 +18,12 @@ class Journey
 
   def end(station)
     @exit_station = station
+    # @journey<< {entry_station: @entry_station, exit_station: @exit_station}
   end
 
   def fare
-    return 6 if !@entry_station || !@exit_station
-    1
+    return PENALTY_FARE if !entry_station || !exit_station
+    MIN_FARE
   end
 
   def complete?

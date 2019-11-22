@@ -20,18 +20,18 @@ describe Journey do
 
   describe "#fare" do
     it "returns #{Journey::PENALTY_FARE} when entry station = nil" do
-      subject.end(exit_station)
+      allow(subject).to receive(:exit_station) {"shoreditch"}
       expect(subject.fare).to eq(Journey::PENALTY_FARE)
     end
 
     it "returns #{Journey::PENALTY_FARE} when exit station = nil" do
-      subject.start(entry_station)
+      allow(subject).to receive(:entry_station) {"Makers"}
       expect(subject.fare).to eq(Journey::PENALTY_FARE)
     end
 
     it "returns #{Journey::MIN_FARE} when there is start journey and end journey" do
-      subject.start(entry_station)
-      subject.end(exit_station)
+      allow(subject).to receive(:entry_station) {"Makers"}
+      allow(subject).to receive(:exit_station) {"Shoreditch"}
       expect(subject.fare).to eq(Journey::MIN_FARE)
     end
   end

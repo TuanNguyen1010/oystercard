@@ -20,24 +20,6 @@ describe Oystercard do
       oystercard.touch_in(entry_station)
       expect(oystercard.in_journey?).to eq true
     end
-
-    it "should not allow you to touch in if already on a journey" do
-      oystercard.touch_in(entry_station)
-      expect { oystercard.touch_in(entry_station) }.to raise_error "Card already touched in"
-    end
-
-    it "should touch out" do
-      oystercard.touch_in(entry_station)
-      oystercard.touch_out(ex_station)
-      expect(oystercard.in_journey?).to eq false
-    end
-
-    it "store a comple journey" do
-      oystercard.touch_in(entry_station)
-      oystercard.touch_out(ex_station)
-      expect(oystercard.journey).to include(journey)
-    end
-
   end
   describe "#top_up" do
 
@@ -73,30 +55,14 @@ describe Oystercard do
       expect { oystercard.touch_in(:station) }.to raise_error "Insufficient balance, cannot touch in: please top up"
     end
 
-    it "save entry station at touch in" do
-      oystercard.top_up(10)
-      oystercard.touch_in(entry_station)
-      expect(oystercard.entry_station).to eq(entry_station)
-  end
-
 end
 
   describe "#touch_out" do
-    it "should not allow you to touch out if not on a journey" do
-      expect { oystercard.touch_out(ex_station) }.to raise_error "Card not touched in"
-    end
 
     it "deduct minimum fare from balance when touching out" do
       oystercard.top_up(10)
       oystercard.touch_in(entry_station)
       expect { oystercard.touch_out(ex_station) }.to change{oystercard.balance}.by(-Oystercard::MIN_FARE)
-    end
-
-    it "accepts a argument when touch out method" do
-      oystercard.top_up(10)
-      oystercard.touch_in(entry_station)
-      oystercard.touch_out(ex_station)
-      expect( oystercard.exit_station).to eq(ex_station)
     end
   end
 end
