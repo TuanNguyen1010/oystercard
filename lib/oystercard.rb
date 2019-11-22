@@ -34,7 +34,7 @@ class Oystercard
     raise "Card not touched in" unless in_journey?
     deduct(MIN_FARE)
     @exit_station = exit_station
-    add_complete_journey(@entry_station, @exit_station)
+    @journey<< {entry_station: @entry_station, exit_station: @exit_station}
     @entry_station = nil
     in_journey?
   end
@@ -42,12 +42,6 @@ class Oystercard
   private
 
   def deduct(amount)
-
     @balance -= amount
   end
-
-  def add_complete_journey(entry_station, exit_station)
-    @journey << {entry_station: entry_station, exit_station: exit_station}
-  end
-
 end
